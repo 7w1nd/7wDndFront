@@ -1,6 +1,7 @@
 import { API_URL } from "../consts";
 import { Container, H2 } from "../styles/global";
 import FlexTable from '../components/FlexTable';
+import { characterRepo } from "../repos/character.repo";
 
 const Home = ({ characters }) => {
   characters = characters.map(a => {
@@ -28,11 +29,9 @@ const Home = ({ characters }) => {
 
 // This function gets called at build time getServerSideProps
 export const getStaticProps = async () => {
-  const res = await fetch(`${API_URL}/api/characters`)
-  const resp = await res.json()
   return {
     props: {
-      characters: resp ? resp.data : [],
+      characters: await characterRepo.getAll().catch(e => { console.log(e); return [] }),
     },
   }
 }

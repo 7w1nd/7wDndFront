@@ -2,6 +2,7 @@ import { API_URL } from "../consts";
 import styled from "styled-components";
 import { Container, H2 } from "../styles/global";
 import Link from "next/link";
+import { systemRepo } from "../repos/systems.repo";
 
 const UL = styled.ul`
     list-style-type: upper-roman;
@@ -78,7 +79,7 @@ export const getStaticProps = async () => {
     const resp = await res.json()
     return {
         props: {
-            systems: resp ? resp.data : [],
+            systems: await systemRepo.getAll().catch(e => { console.log(e); return [] }),
         },
     }
 }
