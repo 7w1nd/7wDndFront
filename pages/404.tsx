@@ -6,7 +6,7 @@ const Container = styled.div`
     text-align: center;
 `;
 
-const NotFoundPage = ({ systems }) => {
+const NotFoundPage = ({ }) => {
     // Render posts...
     return (
         <Container>

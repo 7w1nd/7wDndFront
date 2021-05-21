@@ -2,7 +2,8 @@ import styled from "styled-components"
 import NavBar from './NavBar';
 
 const Container = styled.div`
-    max-width: 1200px;
+    max-width: 100rem;
+    background: #cccccc30;
     margin: 0 auto;
 `;
 

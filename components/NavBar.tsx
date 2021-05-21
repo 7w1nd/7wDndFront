@@ -5,9 +5,9 @@ import Link from "next/link";
 const Nav = styled.nav`
   margin: 0 auto;
   padding: 0.4em;
-  width: calc(100% - 40px);
+  width: calc(100% - 48px);
   position: fixed;
-  max-width: 1161px;
+  max-width: 1561px;
   background: #000;
   border-color: #c53131;
   padding: 0 20px;

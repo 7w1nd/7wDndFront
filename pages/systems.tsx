@@ -1,11 +1,7 @@
 import { API_URL } from "../consts";
 import styled from "styled-components";
+import { Container, H2 } from "../styles/global";
 import Link from "next/link";
-
-const Container = styled.div`
-    padding-top: 7rem;
-    font-size: 20pt;
-`;
 
 const UL = styled.ul`
     list-style-type: upper-roman;
@@ -31,23 +27,28 @@ const Li = styled.li`
     }
 `;
 
-const H2 = styled.h2`
-    color: #333; 
-`;
-
 const Systems = ({ systems }) => {
-    // Render posts...
     return (
         <Container>
             <H2> Available DnD Systems: </H2>
             <hr />
             <UL>
                 {systems.map(a =>
-                    <Li>
+                    <Li key={a._id}>
                         <Link href={`/system/${a._id}`} passHref>
                             <a>{a.name}</a>
                         </Link>
                         <ul>
+                            <li>
+                                <Link href={`/system/${a._id}/Attributes`} passHref>
+                                    <a>Attributes</a>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href={`/system/${a._id}/Skills`} passHref>
+                                    <a>Skills</a>
+                                </Link>
+                            </li>
                             <li>
                                 <Link href={`/system/${a._id}/Races`} passHref>
                                     <a>Races</a>
@@ -56,6 +57,11 @@ const Systems = ({ systems }) => {
                             <li>
                                 <Link href={`/system/${a._id}/Classes`} passHref>
                                     <a>Classes</a>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href={`/system/${a._id}/Feats`} passHref>
+                                    <a>Feats</a>
                                 </Link>
                             </li>
                         </ul>
@@ -77,4 +83,4 @@ export const getStaticProps = async () => {
     }
 }
 
-export default Systems
+export default Systems;
