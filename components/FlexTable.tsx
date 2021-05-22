@@ -93,7 +93,7 @@ export default class FlexTable extends Component<any, any> {
                             <Link href={`/characters/${row[0]}`} passHref>
                                 <IconButton type="button"><FaFile /></IconButton>
                             </Link>
-                            <Link href={`/characters/${row[0]}/edit/`} passHref>
+                            <Link href={`/characters/edit/${row[0]}`} passHref>
                                 <IconButton type="button"><FaEdit /></IconButton>
                             </Link>
                             <IconButton type="button"><FaTrash /></IconButton>
