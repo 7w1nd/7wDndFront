@@ -120,7 +120,7 @@ export const CharacterEditForm = (props) => {
             .min(1).max(20)
             .required('Level is required'),
         note: Yup.string().max(300),
-        alignment: Yup.string().default('N'),
+        alignment: Yup.string().default('N').required('Alignment is required'),
         size: Yup.string().required('Size is required'),
         sex: Yup.string().nullable(),
         age: Yup.string().min(0).max(1000).nullable(),
@@ -149,8 +149,8 @@ export const CharacterEditForm = (props) => {
     function createUser(data) {
         return characterRepo.create(systemId, data)
             .then(async () => {
-                toast.notify('Character added!', { duration: 2, type: "success" });
-                await new Promise(resolve => setTimeout(resolve, 2000));
+                toast.notify('Character added!', { duration: 1, type: "success" });
+                await new Promise(resolve => setTimeout(resolve, 1000));
                 router.push('/');
             })
             .catch(e => toast.notify(e, { duration: 10, type: "error" }));
@@ -159,8 +159,8 @@ export const CharacterEditForm = (props) => {
     function updateUser(id, data) {
         return characterRepo.update(id, data)
             .then(async resp => {
-                toast.notify('Character updated!', { duration: 2, type: "success" });
-                await new Promise(resolve => setTimeout(resolve, 2000));
+                toast.notify('Character updated!', { duration: 1, type: "success" });
+                await new Promise(resolve => setTimeout(resolve, 1000));
                 router.push('/');
             })
             .catch(e => toast.notify(e, { duration: 10, type: "error", closeButton: true }));
