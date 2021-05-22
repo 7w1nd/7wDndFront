@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Image from 'next/image';
-import { API_URL } from "../../consts";
 import { Container, H2 } from "../../styles/global";
+import { characterRepo } from "../../repos/character.repo";
 
 const Header = styled.div`
     display: flex;
@@ -67,20 +67,18 @@ const Character = ({ characterInfo }) => {
 }
 
 export async function getStaticPaths() {
-    const res = await fetch(`${API_URL}/api/characters/`)
-    const resp = await res.json()
-    const paths = resp.data.map((character) => ({
+    const resp = await characterRepo.getAll().catch(e => { console.log(e); return [] });
+    const paths = resp.map((character) => ({
         params: { id: character._id },
     }))
     return { paths, fallback: false }
 }
 
 export const getStaticProps = async ({ params }) => {
-    const res = await fetch(`${API_URL}/api/characters/details/${params.id}`)
-    const resp = await res.json()
+    const characterInfo = await characterRepo.getById(params.id);
     return {
         props: {
-            characterInfo: resp ? resp.data : [],
+            characterInfo,
         },
     }
 }
