@@ -4,24 +4,23 @@ import FlexTable from '../components/FlexTable';
 import { characterRepo } from "../repos/character.repo";
 
 const Home = ({ characters }) => {
-  characters = characters.map(a => {
-    return [a._id, a.system.name, a.name, a.level, a.currentExp, a.race, a.class, a.playerName, a.note];
-  });
   return (
     <Container>
       <H2> Созданные персонажи </H2>
       <hr />
-      <FlexTable header={[
-        { name: "Id", width: '0', orderable: false },
-        { name: "System", width: '9rem', orderable: true },
-        { name: "Name", width: '8rem', orderable: true },
-        { name: "Level", width: '7rem', orderable: true },
-        { name: "Current Experience", width: '8rem', orderable: true },
-        { name: "Race", width: '7rem', orderable: true },
-        { name: "Class", width: '7rem', orderable: true },
-        { name: "Player Name", width: '6rem', orderable: true },
-        { name: "Note", width: '12rem', orderable: false },
+      <FlexTable headers={[
+        { name: "_id", title: "Id", width: '0', orderable: false, filterable: false },
+        { name: "system.name", title: "System", width: '9rem', orderable: true, filterable: true },
+        { name: "name", title: "Name", width: '8rem', orderable: true, filterable: true },
+        { name: "level", title: "Level", width: '7rem', orderable: true, filterable: false },
+        { name: "currentExp", title: "Current Experience", width: '8rem', orderable: true, filterable: false },
+        { name: "race", title: "Race", width: '7rem', orderable: true, filterable: true },
+        { name: "class", title: "Class", width: '7rem', orderable: true, filterable: true },
+        { name: "playerName", title: "Player Name", width: '6rem', orderable: true, filterable: true },
+        { name: "note", title: "Note", width: '12rem', orderable: false, filterable: false, },
       ]}
+        root='characters'
+        repo={characterRepo}
         rows={characters}></FlexTable>
     </Container>
   );
