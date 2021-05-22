@@ -2,7 +2,7 @@ import { API_URL } from "../consts";
 import styled from "styled-components";
 import { Container, H2 } from "../styles/global";
 import Link from "next/link";
-import { systemRepo } from "../repos/systems.repo";
+import { systemRepo } from "../repos/system.repo";
 
 const UL = styled.ul`
     list-style-type: upper-roman;

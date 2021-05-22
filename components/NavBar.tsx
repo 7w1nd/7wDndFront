@@ -14,6 +14,7 @@ const Nav = styled.nav`
   color: #a5afba;
   border-bottom-left-radius: 6pt;
   border-bottom-right-radius: 6pt;
+  z-index: 5;
 `
 
 const Ul = styled.ul`

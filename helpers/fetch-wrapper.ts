@@ -5,14 +5,14 @@ export const fetchWrapper = {
     delete: _delete
 };
 
-function get(url) {
+function get(url): Promise<any> {
     const requestOptions = {
         method: 'GET'
     };
     return fetch(url, requestOptions).then(handleResponse);
 }
 
-function post(url, body) {
+function post(url, body): Promise<{ status: number, created: any[], exists: any[] }> {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -37,7 +37,7 @@ function _delete(url) {
     return fetch(url, requestOptions).then(handleResponse);
 }
 
-function handleResponse(response) {
+function handleResponse(response): Promise<any> {
     return response.json().then(resp => {
         const data = resp;
         if (!response.ok) {

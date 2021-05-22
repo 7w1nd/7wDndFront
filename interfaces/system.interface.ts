@@ -1,5 +1,5 @@
 
 export default interface ISystem extends Document {
-    id: string;
+    _id: string;
     name: number;
 }
