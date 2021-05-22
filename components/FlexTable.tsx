@@ -143,7 +143,7 @@ export default class FlexTable extends Component<any, any> {
                         </Cell>
                     </Row>
                     : null}
-                {rows?.map((row?, index) =>
+                {rows?.map((row: any, index: number) =>
                     <Row key={index}>
                         {row?.map((field, index) => headers[index]?.width != 0 ? <Cell key={index} style={{ width: headers[index]?.width }}>{field}</Cell> : null)}
                         <Cell style={{ width: '12rem' }}>

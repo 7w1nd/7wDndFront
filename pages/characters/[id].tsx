@@ -31,7 +31,6 @@ const Label = styled.label`
 
 
 const Character = ({ characterInfo }) => {
-    console.log(characterInfo);
     return (
         <Container>
             <H2> {characterInfo.race} {characterInfo.class} {characterInfo.name} </H2>
