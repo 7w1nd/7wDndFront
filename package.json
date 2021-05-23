@@ -16,6 +16,7 @@
         "react-hook-form": "^7.6.4",
         "react-icons": "^4.2.0",
         "react-nextjs-toast": "^1.2.5",
+        "react-paginate": "^7.1.2",
         "sass": "^1.32.13",
         "yup": "^0.32.9"
     },

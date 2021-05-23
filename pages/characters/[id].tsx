@@ -68,7 +68,7 @@ const Character = ({ characterInfo }) => {
 export async function getStaticPaths() {
     const resp = await characterRepo.getAll().catch(e => { console.log(e); return [] });
     const paths = resp.map((character) => ({
-        params: { id: character[0] },
+        params: { id: character.rows[0] },
     }))
     return { paths, fallback: false }
 }

@@ -10,8 +10,8 @@ export const characterRepo = {
     delete: _delete
 };
 
-function getAll(sortField: string = '', sortDir: string | number = '', filters: { name: string, value: string }[] = []): Promise<ICharacter[]> {
-    return fetchWrapper.get(`${API_URL}/api/characters?sortField=${sortField}&sortDir=${sortDir}&filters=${JSON.stringify(filters)}`).then((res: any) => res?.data);
+function getAll(sortField: string = '', sortDir: string | number = '', filters: { name: string, value: string }[] = [], page: number = 0, perPage: number = 5): Promise<ICharacter[]> {
+    return fetchWrapper.get(`${API_URL}/api/characters?sortField=${sortField}&sortDir=${sortDir}&page=${page}&perPage=${perPage}&filters=${JSON.stringify(filters)}`).then((res: any) => res?.data);
 }
 
 function getById(id): Promise<ICharacter> {

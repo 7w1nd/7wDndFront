@@ -2,10 +2,48 @@ import styled from "styled-components";
 import React, { Component } from 'react';
 import { FaSearch, FaUndo, FaEdit, FaFile, FaTrash, FaSort, FaSortUp, FaSortDown } from "react-icons/fa";
 import Link from "next/link";
-import { characterRepo } from "../repos/character.repo";
+import ReactPaginate from 'react-paginate';
 
 const Container = styled.div`
     width: fit-content;
+    
+    & .pagination {
+        display: flex;
+        list-style: none;
+        height: 40px;
+        border: 1px solid black;
+        border-radius: 5px;
+        width: fit-content;
+        align-items: center;
+        padding: 0;
+        margin-top: 40px;
+        margin-left: auto;
+        margin-right: auto;
+        li {
+            padding: 1rem;
+            a {
+                display: flex;
+                align-items: center;
+                height: 100%;
+                padding: 0 10px;
+                cursor: pointer;
+                text-decoration: none;
+                
+                &:hover {
+                    background-color: #ccc;
+                    border-radius: 3pt;
+                }
+            }
+            &.active {
+                a {
+                    font-weight: bold;
+                    pointer-events: none;
+                    background-color: #ccc;
+                    border-radius: 3pt;
+                }
+            }
+        }
+    }
 `;
 
 const Cell = styled.div`
@@ -53,13 +91,16 @@ const SearchField = styled.input`
 
 let sortState = [];
 let refs = [];
+let currentPage = 0;
 export default class FlexTable extends Component<any, any> {
     constructor(props) {
         super(props)
-        const { headers, rows, root, repo } = props
+        const { headers, data, root, repo, perPage = 10 } = props
         this.state = {
             headers,
-            rows,
+            rows: data.rows,
+            pageCount: data.pageCount,
+            perPage,
             root,
             repo
         }
@@ -76,7 +117,8 @@ export default class FlexTable extends Component<any, any> {
         this.getData(
             this.state.headers[index].name,
             sortState[index],
-            refs.map((a, i) => a?.current?.value ? { name: this.state.headers[i].name, value: a?.current?.value } : null).filter(a => a)
+            refs.map((a, i) => a?.current?.value ? { name: this.state.headers[i].name, value: a?.current?.value } : null).filter(a => a),
+            currentPage
         );
     };
 
@@ -85,7 +127,8 @@ export default class FlexTable extends Component<any, any> {
         this.getData(
             index == -1 ? '' : this.state.headers[index].name,
             index == -1 ? '' : sortState[index],
-            refs.map((a, i) => a?.current?.value ? { name: this.state.headers[i].name, value: a?.current?.value } : null).filter(a => a)
+            refs.map((a, i) => a?.current?.value ? { name: this.state.headers[i].name, value: a?.current?.value } : null).filter(a => a),
+            currentPage
         );
     };
 
@@ -97,21 +140,28 @@ export default class FlexTable extends Component<any, any> {
             }
         }
         sortState = this.state.headers.map(() => 0);
-        this.getData('', '', []);
+        currentPage = 0;
+        this.getData('', '', [], 0);
     };
 
-    getData = (orderName, orderDir, filters) => {
-        this.state.repo.getAll(orderName, orderDir, filters)
+    getData = (orderName, orderDir, filters, page) => {
+        this.state.repo.getAll(orderName, orderDir, filters, page, this.state.perPage)
             .catch(e => { console.log(e); return [] })
-            .then(rows => {
+            .then(data => {
                 this.setState({
-                    rows: rows
+                    rows: data.rows,
+                    pageCount: data.pageCount
                 });
             });
     }
 
+    pagginationHandler = (page) => {
+        currentPage = page.selected;
+        this.filterData();
+    };
+
     render() {
-        const { headers, rows, root } = this.state;
+        const { headers, rows, root, pageCount } = this.state;
 
         return (
             <Container>
@@ -160,6 +210,21 @@ export default class FlexTable extends Component<any, any> {
                             <IconButton type="button"><FaTrash /></IconButton>
                         </Cell>
                     </Row>)}
+                <ReactPaginate
+                    previousLabel={'previous'}
+                    nextLabel={'next'}
+                    breakLabel={'...'}
+                    breakClassName={'break-me'}
+                    activeClassName={'active'}
+                    containerClassName={'pagination'}
+                    subContainerClassName={'pages pagination'}
+
+                    initialPage={0}
+                    pageCount={pageCount}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={2}
+                    onPageChange={this.pagginationHandler}
+                />
             </Container>
         )
     }

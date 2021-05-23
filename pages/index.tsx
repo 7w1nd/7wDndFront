@@ -42,8 +42,9 @@ const Home = ({ characters, systems }) => {
       ]}
         root='characters'
         repo={characterRepo}
-        rows={characters}></FlexTable>
-    </Container>
+        perPage={5}
+        data={characters}></FlexTable>
+    </Container >
   );
 }
 
