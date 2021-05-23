@@ -146,7 +146,7 @@ export default class FlexTable extends Component<any, any> {
     };
 
     getData = (orderName, orderDir, filters, page) => {
-        this.state.repo.getAll(orderName, orderDir, filters, page, this.state.perPage)
+        this.state.repo.filter(orderName, orderDir, filters, page, this.state.perPage)
             .catch(e => { console.log(e); return [] })
             .then(data => {
                 this.setState({

@@ -65,13 +65,13 @@ const Character = ({ characterInfo }) => {
     );
 }
 
-export async function getStaticPaths() {
-    const resp = await characterRepo.getAll().catch(e => { console.log(e); return { rows: [], pageCount: 0 } });
-    const paths = resp.rows.map((character) => ({
-        params: { id: character[0] },
+export const getStaticPaths = async () => {
+    const resp = await characterRepo.getAll().catch(e => { console.log(e); return [] });
+    const paths = resp.map((character) => ({
+        params: { id: character._id },
     }))
     return { paths, fallback: false }
-}
+};
 
 export const getStaticProps = async ({ params }) => {
     const characterInfo = await characterRepo.getById(params.id);
@@ -80,6 +80,6 @@ export const getStaticProps = async ({ params }) => {
             characterInfo,
         },
     }
-}
+};
 
 export default Character;
