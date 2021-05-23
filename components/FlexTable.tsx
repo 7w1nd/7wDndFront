@@ -9,8 +9,9 @@ const Container = styled.div`
     
     & .pagination {
         display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
         list-style: none;
-        height: 40px;
         border: 1px solid black;
         border-radius: 5px;
         width: fit-content;
@@ -25,7 +26,7 @@ const Container = styled.div`
                 display: flex;
                 align-items: center;
                 height: 100%;
-                padding: 0 10px;
+                padding: 1rem 1.5rem;
                 cursor: pointer;
                 text-decoration: none;
                 
