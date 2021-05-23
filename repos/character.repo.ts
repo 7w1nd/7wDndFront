@@ -10,7 +10,7 @@ export const characterRepo = {
     delete: _delete
 };
 
-function getAll(sortField: string = '', sortDir: string | number = '', filters: { name: string, value: string }[] = [], page: number = 0, perPage: number = 5): Promise<ICharacter[]> {
+function getAll(sortField: string = '', sortDir: string | number = '', filters: { name: string, value: string }[] = [], page: number = 0, perPage: number = 5): Promise<{ rows: ICharacter[], pageCount: number }> {
     return fetchWrapper.get(`${API_URL}/api/characters?sortField=${sortField}&sortDir=${sortDir}&page=${page}&perPage=${perPage}&filters=${JSON.stringify(filters)}`).then((res: any) => res?.data);
 }
 
