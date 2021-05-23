@@ -45,6 +45,10 @@ const SearchField = styled.input`
     width: -moz-available;          
     width: -webkit-fill-available; 
     width: fill-available;
+    background: none !important;
+    color: black;
+    font-size: 16pt;
+    border-radius: 3pt;
 `;
 
 let sortState = [];

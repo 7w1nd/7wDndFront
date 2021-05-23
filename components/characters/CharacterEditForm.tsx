@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import styled from "styled-components";
 import Link from "next/link";
 import Image from 'next/image';
-import { Container, H2 } from "../../styles/global";
+import { Container, H2, StyledButton, StyledSelect, StyledInput, TextArea } from "../../styles/global";
 import { characterRepo } from '../../repos/character.repo';
 
 const Header = styled.div`
@@ -56,47 +56,6 @@ const FormButtonContainer = styled.div`
     }
 `;
 
-const StyledSelect = styled.select`
-    padding: 0.25rem;
-    border-radius: 3pt;
-    box-shadow: 1pt 1pt #ccc;
-    background-image: none !important;
-    font-family: cursive;
-`;
-
-const StyledButton = styled.button`
-    padding: 1rem;
-    border-radius: 3pt;
-    box-shadow: 1pt 1pt #ccc;
-    font-size: 14pt;
-    margin: 1rem;
-
-    & a {
-        text-decoration: none;
-        color: black;
-    }
-`;
-
-const StyledInput = styled.input`
-    padding: 0.25rem;
-    border-radius: 3pt;
-    box-shadow: 1pt 1pt #ccc;
-    font-family: cursive;
-    background-image: none !important;
-    & img {
-        background-image: none !important;
-    }
-`;
-
-const TextArea = styled.textarea`
-    padding: 0.5rem;
-    border-radius: 3pt;
-    box-shadow: 1pt 1pt #ccc;
-    font-family: cursive;
-    width: inherit;
-    margin-left: -6pt;
-`;
-
 export const CharacterEditForm = (props) => {
     const { systemId, characterInfo, dictionaries } = props;
     const isAddMode = !characterInfo;
@@ -142,12 +101,12 @@ export const CharacterEditForm = (props) => {
 
     function onSubmit(data) {
         return isAddMode
-            ? createUser(data)
-            : updateUser(characterInfo._id, data);
+            ? createCharacter(data)
+            : updateCharacter(characterInfo._id, data);
     }
 
-    function createUser(data) {
-        return characterRepo.create(systemId, data)
+    function createCharacter(data) {
+        return characterRepo.create(systemId, [data])
             .then(async () => {
                 toast.notify('Character added!', { duration: 1, type: "success" });
                 await new Promise(resolve => setTimeout(resolve, 1000));
@@ -156,7 +115,7 @@ export const CharacterEditForm = (props) => {
             .catch(e => toast.notify(e, { duration: 10, type: "error" }));
     }
 
-    function updateUser(id, data) {
+    function updateCharacter(id, data) {
         return characterRepo.update(id, data)
             .then(async resp => {
                 toast.notify('Character updated!', { duration: 1, type: "success" });
@@ -291,11 +250,11 @@ export const CharacterEditForm = (props) => {
                     </HeaderCharacterInfo>
                 </Header>
                 <FormButtonContainer>
-                    <StyledButton type="submit" disabled={formState.isSubmitting} className="">
+                    <StyledButton type="submit" disabled={formState.isSubmitting}>
                         Save
                     </StyledButton>
-                    <StyledButton onClick={() => reset(formOptions.defaultValues)} type="button" disabled={formState.isSubmitting} className="">Reset</StyledButton>
-                    <StyledButton><Link href="/" passHref>Cancel</Link></StyledButton>
+                    <StyledButton onClick={() => reset(formOptions.defaultValues)} type="button" disabled={formState.isSubmitting}>Reset</StyledButton>
+                    <StyledButton type="button"><Link href="/" passHref>Cancel</Link></StyledButton>
                 </FormButtonContainer>
             </form>
             <ToastContainer />

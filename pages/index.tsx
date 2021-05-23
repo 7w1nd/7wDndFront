@@ -1,11 +1,32 @@
-import { API_URL } from "../consts";
-import { Container, H2 } from "../styles/global";
+import { useRouter } from 'next/router';
 import FlexTable from '../components/FlexTable';
+import Modal from '../components/Modal';
+import { Container, H2, StyledButton, StyledSelect } from "../styles/global";
 import { characterRepo } from "../repos/character.repo";
+import { useState } from "react";
+import { systemRepo } from "../repos/system.repo";
+import React from "react";
 
-const Home = ({ characters }) => {
+const Home = ({ characters, systems }) => {
+  const [showModal, setShowModal] = useState(false);
+  const systemSelect: any = React.createRef();
+  const router = useRouter();
   return (
     <Container>
+      <hr />
+      <StyledButton type="button" onClick={() => setShowModal(true)}>Add new Character</StyledButton>
+      <Modal title="Choose system for new character"
+        onClose={() => setShowModal(false)}
+        show={showModal}
+      >
+        <div style={{ display: 'grid' }}>
+          <StyledSelect ref={systemSelect} name="system" id="system">
+            {systems?.map((sys, i) => <option key={i} value={sys._id}>{sys.name}</option>)}
+          </StyledSelect>
+          <StyledButton onClick={() => router.push(`/characters/add/${systemSelect.current?.value}`)}>Continue...</StyledButton>
+        </div>
+      </Modal>
+      <hr />
       <H2> Созданные персонажи </H2>
       <hr />
       <FlexTable headers={[
@@ -31,6 +52,7 @@ export const getStaticProps = async () => {
   return {
     props: {
       characters: await characterRepo.getAll().catch(e => { console.log(e); return [] }),
+      systems: await systemRepo.getAll().catch(e => { console.log(e); return [] }),
     },
   }
 }
